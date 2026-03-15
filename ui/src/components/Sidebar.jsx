@@ -40,9 +40,64 @@ function Section({ title, children }) {
   );
 }
 
+function NebиusPanel({ rl }) {
+  const isNebius   = rl.mode === 'nebius';
+  const hasKey     = rl.api_key_set;
+  const hasSuccess = rl.call_count > 0;
+  const hasErrors  = rl.call_errors > 0;
+
+  if (!isNebius) return null;
+
+  return (
+    <div className={styles.nebiusPanel}>
+      <div className={styles.nebiusHeader}>
+        <div className={`${styles.nebPulse} ${hasSuccess ? styles.nebPulseAlive : styles.nebPulseDead}`} />
+        <span className={styles.nebiusTitle}>Nebius LLM policy</span>
+        {hasSuccess && <span className={styles.liveTag}>LIVE</span>}
+        {!hasKey    && <span className={styles.warnTag}>NO KEY</span>}
+      </div>
+
+      <div className={styles.nebiusModel}>{rl.model || '—'}</div>
+
+      <div className={styles.nebiusStats}>
+        <div className={styles.nebiusStat}>
+          <span className={styles.nebiusStatVal} style={{ color: hasSuccess ? '#1D9E75' : '#888780' }}>
+            {rl.call_count ?? 0}
+          </span>
+          <span className={styles.nebiusStatLabel}>calls ok</span>
+        </div>
+        <div className={styles.nebiusStat}>
+          <span className={styles.nebiusStatVal} style={{ color: hasErrors ? '#A32D2D' : '#888780' }}>
+            {rl.call_errors ?? 0}
+          </span>
+          <span className={styles.nebiusStatLabel}>errors</span>
+        </div>
+        <div className={styles.nebiusStat}>
+          <span className={styles.nebiusStatVal} style={{ color: '#534AB7' }}>
+            {rl.last_latency_ms ? `${rl.last_latency_ms}ms` : '—'}
+          </span>
+          <span className={styles.nebiusStatLabel}>latency</span>
+        </div>
+      </div>
+
+      {rl.last_response && (
+        <div className={styles.nebiusLast}>
+          last: dx={rl.last_response.dx.toFixed(3)}, dy={rl.last_response.dy.toFixed(3)}
+        </div>
+      )}
+
+      {!hasKey && (
+        <div className={styles.nebiusWarn}>
+          Set NEBIUS_API_KEY in backend/.env
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function Sidebar({ simState, connected, error }) {
-  const logRef         = useRef(null);
-  const logEntriesRef  = useRef([]);
+  const logRef        = useRef(null);
+  const logEntriesRef = useRef([]);
 
   useEffect(() => {
     if (!simState?.events?.length) return;
@@ -61,22 +116,21 @@ export default function Sidebar({ simState, connected, error }) {
     return (
       <div className={styles.sidebar}>
         <div className={styles.connecting}>
-          {error
-            ? `Backend unreachable — ${error}`
-            : connected
-              ? 'Connected — waiting for first frame...'
-              : 'Connecting to ws://localhost:8000/ws ...'}
+          {error ? `Backend unreachable — ${error}`
+            : connected ? 'Connected — waiting for first frame...'
+            : 'Connecting to ws://localhost:8008/ws ...'}
         </div>
       </div>
     );
   }
 
   const { fsm_state, ekf, slam, planning, rl, drone } = simState;
-  const s   = FSM_STYLE[fsm_state] || FSM_STYLE.IDLE;
+  const s      = FSM_STYLE[fsm_state] || FSM_STYLE.IDLE;
   const posErr = Math.hypot(drone.x - ekf.x, drone.y - ekf.y);
 
   return (
     <div className={styles.sidebar}>
+
       <Section title="Flight state machine">
         <div className={styles.fsmGrid}>
           {FSM_STATES.map(st => {
@@ -117,13 +171,18 @@ export default function Sidebar({ simState, connected, error }) {
       </Section>
 
       <Section title="Planning + RL">
-        <MetricRow label="Path nodes"    value={planning.path_nodes || '—'} />
-        <MetricRow label="Obs avoided"   value={planning.obs_avoided} color="#854F0B" />
-        <MetricRow label="RL reward"     value={rl.reward.toFixed(2)} color="#0F6E56" />
+        <div className={styles.rlModeBadge} data-mode={rl.mode}>
+          {rl.mode === 'nebius' ? 'Nebius LLM' : 'Simulated'}
+        </div>
+        <MetricRow label="Path nodes"     value={planning.path_nodes || '—'} />
+        <MetricRow label="Obs avoided"    value={planning.obs_avoided} color="#854F0B" />
+        <MetricRow label="RL reward"      value={rl.reward.toFixed(2)} color="#0F6E56" />
         <MetricRow label="RL corrections" value={rl.corrections} color="#854F0B" />
-        <MetricRow label="Q-value"       value={rl.q_value.toFixed(2)} color="#534AB7" />
+        <MetricRow label="Q-value"        value={rl.q_value.toFixed(2)} color="#534AB7" />
         <Bar value={rl.q_value} color="#534AB7" max={1} />
       </Section>
+
+      <NebиusPanel rl={rl} />
 
       <div className={styles.log} ref={logRef} />
     </div>

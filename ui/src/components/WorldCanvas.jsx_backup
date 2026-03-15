@@ -40,7 +40,7 @@ export default function WorldCanvas({ simState, onCanvasClick }) {
       const s = stateRef.current;
       const W = canvas.width, H = canvas.height;
       ctx.clearRect(0, 0, W, H);
-      ctx.fillStyle = '#1a2333';
+      ctx.fillStyle = '#0d1117';
       ctx.fillRect(0, 0, W, H);
       if (!s) return;
 
@@ -64,7 +64,7 @@ export default function WorldCanvas({ simState, onCanvasClick }) {
       }
 
       // Grid lines
-      ctx.strokeStyle = 'rgba(100,140,200,0.12)'; ctx.lineWidth = 0.5;
+      ctx.strokeStyle = 'rgba(80,110,150,0.07)'; ctx.lineWidth = 0.5;
       for (let c = 0; c <= COLS; c++) { ctx.beginPath(); ctx.moveTo(c*CELL,0); ctx.lineTo(c*CELL,H); ctx.stroke(); }
       for (let r = 0; r <= ROWS; r++) { ctx.beginPath(); ctx.moveTo(0,r*CELL); ctx.lineTo(W,r*CELL); ctx.stroke(); }
 
@@ -149,12 +149,12 @@ export default function WorldCanvas({ simState, onCanvasClick }) {
       ctx.textAlign = 'left';
 
       // START label
-      ctx.fillStyle = 'rgba(80,230,170,0.9)'; ctx.font = '10px monospace';
+      ctx.fillStyle = 'rgba(80,200,150,0.6)'; ctx.font = '10px monospace';
       ctx.fillText('START', 14, 13);
 
       // HUD strip
-      ctx.fillStyle = 'rgba(20,28,45,0.75)'; ctx.fillRect(3, 3, 210, 17);
-      ctx.fillStyle = 'rgba(80,230,170,1.0)'; ctx.font = '10px monospace';
+      ctx.fillStyle = 'rgba(13,17,23,0.55)'; ctx.fillRect(3, 3, 210, 17);
+      ctx.fillStyle = 'rgba(80,200,150,0.7)'; ctx.font = '10px monospace';
       ctx.fillText(`EKF (${Math.round(ekf.x)},${Math.round(ekf.y)})  t:${sim_time}`, 7, 14);
     }
 
@@ -175,7 +175,7 @@ export default function WorldCanvas({ simState, onCanvasClick }) {
       width={640}
       height={520}
       onClick={handleClick}
-      style={{ display: 'block', cursor: 'crosshair', background: '#1a2333' }}
+      style={{ display: 'block', cursor: 'crosshair', background: '#0d1117' }}
     />
   );
 }

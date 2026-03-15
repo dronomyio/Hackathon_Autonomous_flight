@@ -104,6 +104,10 @@ class RLAgent:
         self._call_interval = 0.15   # seconds between LLM calls (avoid rate-limit)
         self._lock          = threading.Lock()
         self._llm_ready     = True   # False while async call in flight
+        self.call_count     = 0
+        self.call_errors    = 0
+        self.last_response  = None   # last raw (dx,dy) from LLM
+        self.last_latency_ms = 0     # ms for last successful call
 
         if self.mode == "nebius":
             print(f"[RLAgent] Mode: NEBIUS ({NEBIUS_MODEL})")
@@ -130,12 +134,16 @@ class RLAgent:
 
     def get_status(self) -> dict:
         return {
-            "mode":        self.mode,
-            "model":       NEBIUS_MODEL if self.mode == "nebius" else None,
-            "api_key_set": bool(NEBIUS_API_KEY),
-            "reward":      round(self.reward, 2),
-            "corrections": self.corrections,
-            "q_value":     round(self.q_value, 2),
+            "mode":            self.mode,
+            "model":           NEBIUS_MODEL if self.mode == "nebius" else None,
+            "api_key_set":     bool(NEBIUS_API_KEY),
+            "reward":          round(self.reward, 2),
+            "corrections":     self.corrections,
+            "q_value":         round(self.q_value, 2),
+            "call_count":      self.call_count,
+            "call_errors":     self.call_errors,
+            "last_response":   self.last_response,
+            "last_latency_ms": self.last_latency_ms,
         }
 
     def correct(
@@ -259,6 +267,7 @@ class RLAgent:
 
     def _call_nebius(self, frames: list):
         """Blocking LLM call — runs in background thread."""
+        t0 = time.time()
         try:
             if self._client is None:
                 self._client = _make_nebius_client()
@@ -278,10 +287,14 @@ class RLAgent:
             dx = float(max(-1.0, min(1.0, data.get("dx", 0.0))))
             dy = float(max(-1.0, min(1.0, data.get("dy", 0.0))))
             with self._lock:
-                self._pending_dx = dx
-                self._pending_dy = dy
+                self._pending_dx   = dx
+                self._pending_dy   = dy
+                self.last_response = {"dx": round(dx, 3), "dy": round(dy, 3)}
+                self.last_latency_ms = round((time.time() - t0) * 1000)
+                self.call_count   += 1
+            print(f"[RLAgent/Nebius] call #{self.call_count} → dx={dx:.3f} dy={dy:.3f} ({self.last_latency_ms}ms)")
         except Exception as e:
-            print(f"[RLAgent/Nebius] LLM call failed: {e}")
-            # On failure keep last correction, don't crash sim
+            self.call_errors += 1
+            print(f"[RLAgent/Nebius] LLM call failed (error #{self.call_errors}): {e}")
         finally:
             self._llm_ready = True
