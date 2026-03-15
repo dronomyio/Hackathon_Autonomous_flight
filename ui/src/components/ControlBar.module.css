@@ -1,3 +1,17 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Courier New', monospace;
+}
+
+.errorBanner {
+  background: rgba(163,45,45,0.15);
+  border-bottom: 0.5px solid rgba(163,45,45,0.4);
+  color: #F09595;
+  font-size: 10px;
+  padding: 5px 14px;
+}
+
 .bar {
   display: flex;
   align-items: center;
@@ -6,7 +20,6 @@
   border-top: 0.5px solid rgba(255,255,255,0.07);
   background: #0a0f16;
   flex-wrap: wrap;
-  font-family: 'Courier New', monospace;
 }
 
 .left {
@@ -15,20 +28,85 @@
   align-items: center;
 }
 
-.center {
-  flex: 1;
-  text-align: center;
+/* ── RL mode toggle ── */
+.modeToggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 4px 3px 8px;
+  background: rgba(255,255,255,0.03);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 6px;
 }
 
-.statusMsg {
+.modeLabel {
   font-size: 10px;
   color: rgba(255,255,255,0.3);
+  margin-right: 4px;
+  white-space: nowrap;
+}
+
+.modeBtn {
+  font-size: 10px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  border: 0.5px solid rgba(255,255,255,0.1);
+  cursor: pointer;
+  background: transparent;
+  color: rgba(255,255,255,0.3);
+  font-family: 'Courier New', monospace;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.modeBtn:hover:not(:disabled) {
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.6);
+}
+
+.modeBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.modeBtnActive {
+  background: rgba(15,110,86,0.2) !important;
+  color: #5DCAA5 !important;
+  border-color: rgba(15,110,86,0.5) !important;
+}
+
+.modeBtnNebius {
+  background: rgba(83,74,183,0.25) !important;
+  color: #AFA9EC !important;
+  border-color: rgba(83,74,183,0.6) !important;
+}
+
+.modeBtnDisabled {
+  opacity: 0.5;
+}
+
+.lockIcon {
+  font-size: 10px;
+  opacity: 0.5;
+}
+
+.liveTag {
+  font-size: 8px;
+  background: rgba(83,74,183,0.4);
+  color: #AFA9EC;
+  padding: 1px 4px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
 }
 
 .right {
   display: flex;
   align-items: center;
   gap: 8px;
+  margin-left: auto;
 }
 
 .btn {
@@ -49,79 +127,27 @@
   color: rgba(255,255,255,0.85);
 }
 
-.btn:disabled {
-  opacity: 0.35;
-  cursor: not-allowed;
-}
+.btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
-.active {
-  background: rgba(24,95,165,0.25);
-  color: #85B7EB;
-  border-color: rgba(24,95,165,0.5);
-}
-
-.rlOn {
-  background: rgba(83,74,183,0.25);
-  color: #AFA9EC;
-  border-color: rgba(83,74,183,0.5);
-}
-
-.fault {
-  background: rgba(163,45,45,0.2);
-  color: #F09595;
-  border-color: rgba(163,45,45,0.4);
-}
+.active  { background: rgba(24,95,165,0.25) !important; color: #85B7EB !important; border-color: rgba(24,95,165,0.5) !important; }
+.rlOn    { background: rgba(83,74,183,0.25) !important; color: #AFA9EC !important; border-color: rgba(83,74,183,0.5) !important; }
+.fault   { background: rgba(163,45,45,0.2)  !important; color: #F09595 !important; border-color: rgba(163,45,45,0.4)  !important; }
 
 .fsmPill {
-  font-size: 10px;
-  padding: 2px 8px;
-  border-radius: 8px;
-  font-weight: 500;
-  background: rgba(255,255,255,0.06);
-  color: rgba(255,255,255,0.5);
-  border: 0.5px solid rgba(255,255,255,0.1);
+  font-size: 10px; padding: 2px 8px; border-radius: 8px;
+  font-weight: 500; background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.5); border: 0.5px solid rgba(255,255,255,0.1);
 }
+.fsmPill[data-state="NAVIGATING"] { background:rgba(15,110,86,0.25);  color:#5DCAA5; border-color:rgba(15,110,86,0.4); }
+.fsmPill[data-state="FAULT"]      { background:rgba(163,45,45,0.25);  color:#F09595; border-color:rgba(163,45,45,0.4); }
+.fsmPill[data-state="AVOIDING"]   { background:rgba(133,79,11,0.25);  color:#FAC775; border-color:rgba(133,79,11,0.4); }
+.fsmPill[data-state="RL_CORRECT"] { background:rgba(83,74,183,0.25);  color:#AFA9EC; border-color:rgba(83,74,183,0.4); }
+.fsmPill[data-state="TAKEOFF"]    { background:rgba(24,95,165,0.25);  color:#85B7EB; border-color:rgba(24,95,165,0.4); }
+.fsmPill[data-state="LAND"]       { background:rgba(59,109,17,0.25);  color:#97C459; border-color:rgba(59,109,17,0.4); }
 
-.fsmPill[data-state="NAVIGATING"] { background: rgba(15,110,86,0.25); color: #5DCAA5; border-color: rgba(15,110,86,0.4); }
-.fsmPill[data-state="FAULT"]      { background: rgba(163,45,45,0.25); color: #F09595; border-color: rgba(163,45,45,0.4); }
-.fsmPill[data-state="AVOIDING"]   { background: rgba(133,79,11,0.25); color: #FAC775; border-color: rgba(133,79,11,0.4); }
-.fsmPill[data-state="RL_CORRECT"] { background: rgba(83,74,183,0.25); color: #AFA9EC; border-color: rgba(83,74,183,0.4); }
-.fsmPill[data-state="TAKEOFF"]    { background: rgba(24,95,165,0.25); color: #85B7EB; border-color: rgba(24,95,165,0.4); }
-.fsmPill[data-state="LAND"]       { background: rgba(59,109,17,0.25); color: #97C459; border-color: rgba(59,109,17,0.4); }
-
-.timerLabel {
-  font-size: 10px;
-  color: rgba(255,255,255,0.25);
-  font-family: 'Courier New', monospace;
-  min-width: 48px;
-}
-
-.connDot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #A32D2D;
-  transition: background 0.3s;
-  flex-shrink: 0;
-}
-
-.connDot[data-connected="true"] {
-  background: #1D9E75;
-}
-
-.speedLabel {
-  font-size: 10px;
-  color: rgba(255,255,255,0.3);
-}
-
-.slider {
-  width: 80px;
-  accent-color: #378ADD;
-}
-
-.speedVal {
-  font-size: 10px;
-  color: rgba(255,255,255,0.5);
-  min-width: 28px;
-  font-family: 'Courier New', monospace;
-}
+.timerLabel { font-size:10px; color:rgba(255,255,255,0.25); font-family:'Courier New',monospace; min-width:48px; }
+.connDot    { width:7px; height:7px; border-radius:50%; background:#A32D2D; transition:background .3s; flex-shrink:0; }
+.connDot[data-connected="true"] { background:#1D9E75; }
+.speedLabel { font-size:10px; color:rgba(255,255,255,0.3); }
+.slider     { width:80px; accent-color:#378ADD; }
+.speedVal   { font-size:10px; color:rgba(255,255,255,0.5); min-width:28px; font-family:'Courier New',monospace; }

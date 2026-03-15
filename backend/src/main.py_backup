@@ -59,6 +59,15 @@ class SimEngine:
     def __init__(self):
         self.world = World(COLS, ROWS)
         self.drone = {"x": 2.5 * CELL, "y": 2.5 * CELL, "vx": 0.0, "vy": 0.0, "heading": 0.0}
+        # Ensure start position is in a free cell
+        sr, sc = int(2.5), int(2.5)
+        if self.world.grid[sr][sc] == 1:
+            for r in range(1, ROWS - 1):
+                for c in range(1, COLS - 1):
+                    if self.world.grid[r][c] == 0:
+                        self.drone["x"] = c * CELL + CELL / 2
+                        self.drone["y"] = r * CELL + CELL / 2
+                        break
         self.goal: Optional[dict] = None
         self.global_path: list = []
         self.local_target: Optional[dict] = None
@@ -271,13 +280,27 @@ class SimEngine:
 
             if 0 <= nr < ROWS and 0 <= nc < COLS and self.world.grid[nr][nc] == 1:
                 self.obs_avoided += 1
-                self.drone["vx"] *= -0.6
-                self.drone["vy"] *= -0.6
-                nx = self.drone["x"] + self.drone["vx"]
-                ny = self.drone["y"] + self.drone["vy"]
                 if self.rl_enabled:
                     self.rl.reward -= 1
                 self._log("nav", "Collision — obstacle avoided")
+                # Push drone to centre of current free cell instead of bouncing in place
+                cr = int(self.drone["y"] / CELL)
+                cc2 = int(self.drone["x"] / CELL)
+                # Walk outward to find nearest free cell
+                pushed = False
+                for dist in range(1, 4):
+                    for dr2, dc2 in [(0,-dist),(0,dist),(-dist,0),(dist,0),
+                                     (-dist,-dist),(-dist,dist),(dist,-dist),(dist,dist)]:
+                        tr, tc = cr + dr2, cc2 + dc2
+                        if 0 <= tr < ROWS and 0 <= tc < COLS and self.world.grid[tr][tc] == 0:
+                            self.drone["x"] = tc * CELL + CELL / 2
+                            self.drone["y"] = tr * CELL + CELL / 2
+                            pushed = True
+                            break
+                    if pushed:
+                        break
+                self.drone["vx"] = 0.0
+                self.drone["vy"] = 0.0
                 self._replan()
             else:
                 self.drone["x"] = nx
