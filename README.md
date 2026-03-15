@@ -8,7 +8,13 @@ Planning, RL Course Correction, and a Flight State Machine.
 
 ![KR Autonomous Flight Demo](docs/Architecture_diagram.png)
 
- docs/Architecture_diagram.png
+RL
+
+ ![KR Autonomous Flight Demo](docs/RL.png)
+
+ RL
+
+ ![KR Autonomous Flight Demo](docs/RL1.png)
 
 ```
 kr-autonomous-flight/
