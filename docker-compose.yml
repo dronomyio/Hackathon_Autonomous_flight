@@ -6,6 +6,8 @@ services:
     container_name: kr-backend
     ports:
       - "8008:8000"
+    env_file:
+      - ./backend/.env
     environment:
       - PYTHONUNBUFFERED=1
     healthcheck:
@@ -22,8 +24,6 @@ services:
       context: ./ui
       dockerfile: Dockerfile
       args:
-        # Must match the HOST port (8008), not the container-internal port (8000)
-        # This is baked into the JS bundle at build time by Vite
         VITE_API_URL: http://localhost:8008
     container_name: kr-ui
     ports:
