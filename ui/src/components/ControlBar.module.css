@@ -1,0 +1,127 @@
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-top: 0.5px solid rgba(255,255,255,0.07);
+  background: #0a0f16;
+  flex-wrap: wrap;
+  font-family: 'Courier New', monospace;
+}
+
+.left {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.center {
+  flex: 1;
+  text-align: center;
+}
+
+.statusMsg {
+  font-size: 10px;
+  color: rgba(255,255,255,0.3);
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn {
+  font-size: 11px;
+  padding: 4px 10px;
+  border: 0.5px solid rgba(255,255,255,0.15);
+  border-radius: 5px;
+  cursor: pointer;
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.6);
+  font-family: 'Courier New', monospace;
+  transition: background 0.12s;
+  white-space: nowrap;
+}
+
+.btn:hover:not(:disabled) {
+  background: rgba(255,255,255,0.09);
+  color: rgba(255,255,255,0.85);
+}
+
+.btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.active {
+  background: rgba(24,95,165,0.25);
+  color: #85B7EB;
+  border-color: rgba(24,95,165,0.5);
+}
+
+.rlOn {
+  background: rgba(83,74,183,0.25);
+  color: #AFA9EC;
+  border-color: rgba(83,74,183,0.5);
+}
+
+.fault {
+  background: rgba(163,45,45,0.2);
+  color: #F09595;
+  border-color: rgba(163,45,45,0.4);
+}
+
+.fsmPill {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-weight: 500;
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.5);
+  border: 0.5px solid rgba(255,255,255,0.1);
+}
+
+.fsmPill[data-state="NAVIGATING"] { background: rgba(15,110,86,0.25); color: #5DCAA5; border-color: rgba(15,110,86,0.4); }
+.fsmPill[data-state="FAULT"]      { background: rgba(163,45,45,0.25); color: #F09595; border-color: rgba(163,45,45,0.4); }
+.fsmPill[data-state="AVOIDING"]   { background: rgba(133,79,11,0.25); color: #FAC775; border-color: rgba(133,79,11,0.4); }
+.fsmPill[data-state="RL_CORRECT"] { background: rgba(83,74,183,0.25); color: #AFA9EC; border-color: rgba(83,74,183,0.4); }
+.fsmPill[data-state="TAKEOFF"]    { background: rgba(24,95,165,0.25); color: #85B7EB; border-color: rgba(24,95,165,0.4); }
+.fsmPill[data-state="LAND"]       { background: rgba(59,109,17,0.25); color: #97C459; border-color: rgba(59,109,17,0.4); }
+
+.timerLabel {
+  font-size: 10px;
+  color: rgba(255,255,255,0.25);
+  font-family: 'Courier New', monospace;
+  min-width: 48px;
+}
+
+.connDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #A32D2D;
+  transition: background 0.3s;
+  flex-shrink: 0;
+}
+
+.connDot[data-connected="true"] {
+  background: #1D9E75;
+}
+
+.speedLabel {
+  font-size: 10px;
+  color: rgba(255,255,255,0.3);
+}
+
+.slider {
+  width: 80px;
+  accent-color: #378ADD;
+}
+
+.speedVal {
+  font-size: 10px;
+  color: rgba(255,255,255,0.5);
+  min-width: 28px;
+  font-family: 'Courier New', monospace;
+}

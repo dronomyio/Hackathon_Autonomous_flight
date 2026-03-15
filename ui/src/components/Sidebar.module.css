@@ -1,0 +1,111 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #0f1923;
+  border-left: 0.5px solid rgba(255,255,255,0.08);
+  font-family: 'Courier New', monospace;
+}
+
+.connecting {
+  padding: 20px 14px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+}
+
+.section {
+  padding: 10px 12px;
+  border-bottom: 0.5px solid rgba(255,255,255,0.07);
+  flex-shrink: 0;
+}
+
+.sectionTitle {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 8px;
+}
+
+.fsmGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.fsmState {
+  padding: 4px 2px;
+  border-radius: 4px;
+  border: 0.5px solid rgba(255,255,255,0.1);
+  text-align: center;
+  font-size: 9px;
+  color: rgba(255,255,255,0.3);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fsmCurrent {
+  font-size: 10px;
+  font-weight: 500;
+  text-align: right;
+  margin-top: 2px;
+}
+
+.mRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3px;
+}
+
+.mLabel {
+  font-size: 10px;
+  color: rgba(255,255,255,0.35);
+}
+
+.mVal {
+  font-size: 11px;
+  font-weight: 500;
+  font-family: 'Courier New', monospace;
+  color: rgba(255,255,255,0.75);
+}
+
+.barTrack {
+  height: 3px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 2px;
+  margin-bottom: 6px;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 3px;
+  border-radius: 2px;
+  transition: width 0.15s;
+}
+
+.log {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px 12px;
+  font-size: 10px;
+  line-height: 1.9;
+  font-family: 'Courier New', monospace;
+  color: rgba(255,255,255,0.3);
+  min-height: 80px;
+}
+
+.log :global(.log-entry) {
+  border-bottom: 0.5px solid rgba(255,255,255,0.04);
+  padding: 1px 0;
+}
+.log :global(.log-rl)   { color: #854F0B; }
+.log :global(.log-slam) { color: #993556; }
+.log :global(.log-nav)  { color: #185FA5; }
+.log :global(.log-ok)   { color: #0F6E56; }
+.log :global(.log-fsm)  { color: #534AB7; }
+.log :global(.log-ekf)  { color: #993C1D; }
