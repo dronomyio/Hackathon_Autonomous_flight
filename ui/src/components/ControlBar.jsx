@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { apiPost } from '../hooks/useWebSocket';
+import { apiPost } from '../hooks/useWebSocket.js';
 import styles from './ControlBar.module.css';
 
 export default function ControlBar({ simState, connected }) {

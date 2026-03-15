@@ -2,8 +2,12 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-COPY package.json package-lock.json* ./
-RUN npm ci --silent
+# VITE_API_URL is baked into the bundle at build time — must be an ARG not ENV-only
+ARG VITE_API_URL=http://localhost:8008
+ENV VITE_API_URL=$VITE_API_URL
+
+COPY package.json ./
+RUN npm install
 
 COPY . .
 RUN npm run build

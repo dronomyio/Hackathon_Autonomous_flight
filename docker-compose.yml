@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   backend:
     build:
@@ -7,11 +5,9 @@ services:
       dockerfile: Dockerfile
     container_name: kr-backend
     ports:
-      - "8000:8000"
+      - "8008:8000"
     environment:
       - PYTHONUNBUFFERED=1
-      - HOST=0.0.0.0
-      - PORT=8000
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 10s
@@ -25,11 +21,13 @@ services:
     build:
       context: ./ui
       dockerfile: Dockerfile
+      args:
+        # Must match the HOST port (8008), not the container-internal port (8000)
+        # This is baked into the JS bundle at build time by Vite
+        VITE_API_URL: http://localhost:8008
     container_name: kr-ui
     ports:
-      - "3000:80"
-    environment:
-      - REACT_APP_API_URL=http://localhost:8000
+      - "3008:80"
     depends_on:
       backend:
         condition: service_healthy
