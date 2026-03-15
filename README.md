@@ -1,10 +1,12 @@
-# KR Autonomous Flight — Full Stack RL + SLAM Simulator
+#  Autonomous Flight — Full Stack RL + SLAM Simulator
 
 Dockerized autonomous flight simulator implementing the full KR Autonomous Flight
 architecture stack: SLAM, EKF State Estimation, A* Global Planning, DWA Local
 Planning, RL Course Correction, and a Flight State Machine.
 
 ## Architecture
+
+
 
 ```
 kr-autonomous-flight/
