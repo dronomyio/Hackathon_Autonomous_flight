@@ -6,6 +6,8 @@ Planning, RL Course Correction, and a Flight State Machine.
 
 ## Architecture
 
+![KR Autonomous Flight Demo](docs/Architecture_diagram.png)
+
  docs/Architecture_diagram.png
 
 ```
