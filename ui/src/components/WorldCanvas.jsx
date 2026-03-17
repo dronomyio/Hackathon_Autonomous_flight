@@ -175,7 +175,9 @@ export default function WorldCanvas({ simState, onCanvasClick }) {
       width={640}
       height={520}
       onClick={handleClick}
-      style={{ display: 'block', cursor: 'crosshair', background: '#1a2333' }}
+      style={{ display: 'block', cursor: 'crosshair', background: '#1a2333',
+               width: '100%', height: '100%', objectFit: 'contain' }}
     />
   );
 }
+

@@ -1,0 +1,46 @@
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-bottom: 0.5px solid rgba(255,255,255,0.07);
+  background: #0a0f16;
+  flex-wrap: wrap;
+  font-family: 'Courier New', monospace;
+}
+
+.title {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: rgba(255,255,255,0.7);
+  margin-right: 4px;
+  white-space: nowrap;
+}
+
+.badge {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 8px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.blue   { background: #0C447C22; color: #85B7EB; border: 0.5px solid #185FA544; }
+.teal   { background: #08504122; color: #5DCAA5; border: 0.5px solid #0F6E5644; }
+.amber  { background: #63380622; color: #FAC775; border: 0.5px solid #854F0B44; }
+.pink   { background: #72243E22; color: #ED93B1; border: 0.5px solid #99355644; }
+.purple { background: #3C348922; color: #AFA9EC; border: 0.5px solid #534AB744; }
+.red    { background: #791F1F22; color: #F09595; border: 0.5px solid #A32D2D44; }
+
+.connLabel {
+  margin-left: auto;
+  font-size: 10px;
+  color: #A32D2D;
+  letter-spacing: 0.5px;
+  transition: color 0.3s;
+}
+
+.connLabel[data-connected="true"] {
+  color: #1D9E75;
+}

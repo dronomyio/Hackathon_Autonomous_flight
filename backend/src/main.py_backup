@@ -48,6 +48,10 @@ class ObstacleRequest(BaseModel):
     height: int = 3
 
 
+class RLModeRequest(BaseModel):
+    mode: str  # "simulated" or "nebius"
+
+
 # ---------------------------------------------------------------------------
 # Simulation state (one global instance for simplicity)
 # ---------------------------------------------------------------------------
@@ -269,7 +273,13 @@ class SimEngine:
 
             target = self.local_target or self.goal
             vx, vy = dwa_select_velocity(self.drone, target, self.world.obstacles, COLS, ROWS, CELL, self.speed)
-            dx, dy = self.rl.correct(self.drone, target, self.global_path, CELL, self.rl_enabled, self.speed)
+            dx, dy = self.rl.correct(
+                self.drone, target, self.global_path, CELL, self.rl_enabled, self.speed,
+                ekf_cov=self.ekf.trace(),
+                fsm_state=self.fsm.state.value,
+                obstacles=self.world.obstacles,
+                cols=COLS,
+            )
 
             self.drone["vx"] = vx + dx * 0.35
             self.drone["vy"] = vy + dy * 0.35
@@ -367,10 +377,16 @@ class SimEngine:
                 "obs_avoided": self.obs_avoided,
             },
             "rl": {
-                "reward": round(self.rl.reward, 2),
-                "corrections": self.rl.corrections,
-                "q_value": round(self.rl.q_value, 2),
-                "enabled": self.rl_enabled,
+                "reward":          round(self.rl.reward, 2),
+                "corrections":     self.rl.corrections,
+                "q_value":         round(self.rl.q_value, 2),
+                "enabled":         self.rl_enabled,
+                "mode":            self.rl.mode,
+                "api_key_set":     self.rl.get_status()["api_key_set"],
+                "call_count":      self.rl.call_count,
+                "call_errors":     self.rl.call_errors,
+                "last_response":   self.rl.last_response,
+                "last_latency_ms": self.rl.last_latency_ms,
             },
             "fault_active": self.fault_active,
             "events": new_events,
@@ -434,6 +450,21 @@ def inject_fault():
 def set_speed(value: float):
     sim.speed = max(0.5, min(4.0, value))
     return {"speed": sim.speed}
+
+
+# ---------------------------------------------------------------------------
+# RL mode endpoints
+# ---------------------------------------------------------------------------
+
+@app.get("/rl/status")
+def rl_status():
+    return sim.rl.get_status()
+
+
+@app.post("/rl/mode")
+def set_rl_mode(req: RLModeRequest):
+    result = sim.rl.set_mode(req.mode)
+    return result
 
 
 # ---------------------------------------------------------------------------

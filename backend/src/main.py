@@ -453,6 +453,68 @@ def set_speed(value: float):
 
 
 # ---------------------------------------------------------------------------
+# Code hot-reload endpoint (used by /learn page)
+# ---------------------------------------------------------------------------
+
+class CodeUpdateRequest(BaseModel):
+    filename: str   # e.g. "dwa.py", "planners/astar.py"
+    code: str
+
+
+@app.post("/code/update")
+async def code_update(req: CodeUpdateRequest):
+    """
+    Receives edited Python source, validates syntax, writes to disk,
+    hot-reloads the module so the next sim tick uses the new code.
+    """
+    import importlib
+    import sys
+
+    # Safety: only allow editing known sim files
+    allowed = {
+        "dwa.py":       "planners.dwa",
+        "astar.py":     "planners.astar",
+        "rl_agent.py":  "planners.rl_agent",
+        "ekf.py":       "estimator.ekf",
+        "fsm.py":       "statemachine.fsm",
+        "world.py":     "src.world",
+    }
+    basename = req.filename.split("/")[-1]
+    if basename not in allowed:
+        return {"ok": False, "error": f"{basename} not in editable files list"}
+
+    # Syntax check before writing
+    try:
+        compile(req.code, basename, "exec")
+    except SyntaxError as e:
+        return {"ok": False, "error": f"SyntaxError line {e.lineno}: {e.msg}"}
+
+    # Write to disk
+    import os
+    path_map = {
+        "dwa.py":      "/app/planners/dwa.py",
+        "astar.py":    "/app/planners/astar.py",
+        "rl_agent.py": "/app/planners/rl_agent.py",
+        "ekf.py":      "/app/estimator/ekf.py",
+        "fsm.py":      "/app/statemachine/fsm.py",
+        "world.py":    "/app/src/world.py",
+    }
+    with open(path_map[basename], "w") as f:
+        f.write(req.code)
+
+    # Hot-reload the module
+    module_name = allowed[basename]
+    try:
+        if module_name in sys.modules:
+            importlib.reload(sys.modules[module_name])
+        sim._log("nav", f"Code reloaded: {basename}")
+    except Exception as e:
+        return {"ok": False, "error": f"Reload failed: {str(e)}"}
+
+    return {"ok": True, "reloaded": basename}
+
+
+# ---------------------------------------------------------------------------
 # RL mode endpoints
 # ---------------------------------------------------------------------------
 

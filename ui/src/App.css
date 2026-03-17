@@ -6,7 +6,7 @@
 
 html, body, #root {
   height: 100%;
-  background: #0d1117;
+  background: #1e2738;
   font-family: 'Courier New', monospace;
 }
 
@@ -19,7 +19,7 @@ html, body, #root {
 
 .app-body {
   display: grid;
-  grid-template-columns: 1fr 300px;
+  grid-template-columns: 1fr 310px;
   flex: 1;
   overflow: hidden;
 }
@@ -37,8 +37,7 @@ html, body, #root {
   height: auto !important;
 }
 
-/* Scrollbar styling */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.22); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.38); }

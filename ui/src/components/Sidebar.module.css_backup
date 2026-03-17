@@ -1,0 +1,250 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #0f1923;
+  border-left: 0.5px solid rgba(255,255,255,0.08);
+  font-family: 'Courier New', monospace;
+}
+
+.connecting {
+  padding: 20px 14px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+}
+
+.section {
+  padding: 10px 12px;
+  border-bottom: 0.5px solid rgba(255,255,255,0.07);
+  flex-shrink: 0;
+}
+
+.sectionTitle {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 8px;
+}
+
+.fsmGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.fsmState {
+  padding: 4px 2px;
+  border-radius: 4px;
+  border: 0.5px solid rgba(255,255,255,0.1);
+  text-align: center;
+  font-size: 9px;
+  color: rgba(255,255,255,0.3);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fsmCurrent {
+  font-size: 10px;
+  font-weight: 500;
+  text-align: right;
+  margin-top: 2px;
+}
+
+.mRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3px;
+}
+
+.mLabel {
+  font-size: 10px;
+  color: rgba(255,255,255,0.35);
+}
+
+.mVal {
+  font-size: 11px;
+  font-weight: 500;
+  font-family: 'Courier New', monospace;
+  color: rgba(255,255,255,0.75);
+}
+
+.barTrack {
+  height: 3px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 2px;
+  margin-bottom: 6px;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 3px;
+  border-radius: 2px;
+  transition: width 0.15s;
+}
+
+.log {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px 12px;
+  font-size: 10px;
+  line-height: 1.9;
+  font-family: 'Courier New', monospace;
+  color: rgba(255,255,255,0.3);
+  min-height: 80px;
+}
+
+.log :global(.log-entry) {
+  border-bottom: 0.5px solid rgba(255,255,255,0.04);
+  padding: 1px 0;
+}
+.log :global(.log-rl)   { color: #854F0B; }
+.log :global(.log-slam) { color: #993556; }
+.log :global(.log-nav)  { color: #185FA5; }
+.log :global(.log-ok)   { color: #0F6E56; }
+.log :global(.log-fsm)  { color: #534AB7; }
+.log :global(.log-ekf)  { color: #993C1D; }
+
+.rlModeBadge {
+  display: inline-block;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 8px;
+  margin-bottom: 7px;
+  font-weight: 500;
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.4);
+  border: 0.5px solid rgba(255,255,255,0.1);
+}
+.rlModeBadge[data-mode="nebius"] {
+  background: rgba(83,74,183,0.2);
+  color: #AFA9EC;
+  border-color: rgba(83,74,183,0.5);
+}
+
+.nebiusPanel {
+  padding: 10px 12px;
+  border-bottom: 0.5px solid rgba(255,255,255,0.07);
+  background: rgba(83,74,183,0.07);
+  flex-shrink: 0;
+}
+
+.nebiusHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 5px;
+}
+
+.nebiusTitle {
+  font-size: 10px;
+  font-weight: 500;
+  color: #AFA9EC;
+  letter-spacing: 0.4px;
+  flex: 1;
+}
+
+.nebPulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+@keyframes nebPulseAnim {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0.35; }
+}
+
+.nebPulseAlive {
+  background: #1D9E75;
+  animation: nebPulseAnim 1.4s ease-in-out infinite;
+}
+
+.nebPulseDead {
+  background: #5F5E5A;
+}
+
+.liveTag {
+  font-size: 9px;
+  background: rgba(29,158,117,0.25);
+  color: #5DCAA5;
+  padding: 1px 5px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+.warnTag {
+  font-size: 9px;
+  background: rgba(163,45,45,0.2);
+  color: #F09595;
+  padding: 1px 5px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.nebiusModel {
+  font-size: 9px;
+  color: rgba(175,169,236,0.5);
+  margin-bottom: 8px;
+  font-family: 'Courier New', monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nebiusStats {
+  display: flex;
+  gap: 0;
+}
+
+.nebiusStat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 0;
+  border-right: 0.5px solid rgba(255,255,255,0.07);
+}
+
+.nebiusStat:last-child {
+  border-right: none;
+}
+
+.nebiusStatVal {
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Courier New', monospace;
+  line-height: 1;
+}
+
+.nebiusStatLabel {
+  font-size: 9px;
+  color: rgba(255,255,255,0.25);
+  margin-top: 2px;
+}
+
+.nebiusLast {
+  margin-top: 6px;
+  font-size: 10px;
+  font-family: 'Courier New', monospace;
+  color: rgba(175,169,236,0.6);
+  background: rgba(83,74,183,0.1);
+  padding: 3px 6px;
+  border-radius: 4px;
+}
+
+.nebiusWarn {
+  margin-top: 6px;
+  font-size: 10px;
+  color: #F09595;
+  background: rgba(163,45,45,0.1);
+  padding: 3px 6px;
+  border-radius: 4px;
+}

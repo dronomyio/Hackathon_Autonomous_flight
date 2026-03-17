@@ -1,12 +1,13 @@
+import { Link } from 'react-router-dom';
 import styles from './TopBar.module.css';
 
 const BADGES = [
-  { label: 'SLAM',        cls: 'pink'   },
-  { label: 'A* GLOBAL',  cls: 'blue'   },
-  { label: 'DWA LOCAL',  cls: 'teal'   },
-  { label: 'RL AGENT',   cls: 'amber'  },
+  { label: 'SLAM',           cls: 'pink'   },
+  { label: 'A* GLOBAL',     cls: 'blue'   },
+  { label: 'DWA LOCAL',     cls: 'teal'   },
+  { label: 'RL AGENT',      cls: 'amber'  },
   { label: 'EKF ESTIMATOR', cls: 'purple' },
-  { label: 'STATE MACHINE', cls: 'red'  },
+  { label: 'STATE MACHINE', cls: 'red'    },
 ];
 
 export default function TopBar({ connected }) {
@@ -16,6 +17,9 @@ export default function TopBar({ connected }) {
       {BADGES.map(b => (
         <span key={b.label} className={`${styles.badge} ${styles[b.cls]}`}>{b.label}</span>
       ))}
+      <Link to="/learn" className={styles.learnLink}>
+        Learn ↗
+      </Link>
       <span className={styles.connLabel} data-connected={connected}>
         {connected ? 'LIVE' : 'CONNECTING...'}
       </span>

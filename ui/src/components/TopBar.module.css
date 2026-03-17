@@ -3,44 +3,64 @@
   align-items: center;
   gap: 7px;
   padding: 8px 14px;
-  border-bottom: 0.5px solid rgba(255,255,255,0.07);
-  background: #0a0f16;
+  border-bottom: 0.5px solid rgba(255,255,255,0.15);
+  background: #161e2c;
   flex-wrap: wrap;
   font-family: 'Courier New', monospace;
 }
 
 .title {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  color: rgba(255,255,255,0.7);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #ffffff;
   margin-right: 4px;
   white-space: nowrap;
 }
 
 .badge {
   font-size: 10px;
-  padding: 2px 7px;
+  padding: 2px 8px;
   border-radius: 8px;
-  font-weight: 500;
+  font-weight: 700;
   white-space: nowrap;
+  letter-spacing: 0.3px;
 }
 
-.blue   { background: #0C447C22; color: #85B7EB; border: 0.5px solid #185FA544; }
-.teal   { background: #08504122; color: #5DCAA5; border: 0.5px solid #0F6E5644; }
-.amber  { background: #63380622; color: #FAC775; border: 0.5px solid #854F0B44; }
-.pink   { background: #72243E22; color: #ED93B1; border: 0.5px solid #99355644; }
-.purple { background: #3C348922; color: #AFA9EC; border: 0.5px solid #534AB744; }
-.red    { background: #791F1F22; color: #F09595; border: 0.5px solid #A32D2D44; }
+.blue   { background: #0C447C44; color: #90d0ff; border: 0.5px solid #378ADD88; }
+.teal   { background: #08504144; color: #60e8b8; border: 0.5px solid #1D9E7588; }
+.amber  { background: #63380644; color: #ffe080; border: 0.5px solid #BA751788; }
+.pink   { background: #72243E44; color: #ffb0d8; border: 0.5px solid #D4537E88; }
+.purple { background: #3C348944; color: #d0c8ff; border: 0.5px solid #7F77DD88; }
+.red    { background: #791F1F44; color: #ffb8b8; border: 0.5px solid #E24B4A88; }
 
 .connLabel {
   margin-left: auto;
-  font-size: 10px;
-  color: #A32D2D;
-  letter-spacing: 0.5px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ff6060;
+  letter-spacing: 0.8px;
   transition: color 0.3s;
 }
 
 .connLabel[data-connected="true"] {
-  color: #1D9E75;
+  color: #2effa0;
+}
+
+.learnLink {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 5px;
+  border: 0.5px solid rgba(46,255,160,0.4);
+  background: rgba(46,255,160,0.1);
+  color: #2effa0;
+  text-decoration: none;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.3px;
+  transition: background 0.15s;
+}
+
+.learnLink:hover {
+  background: rgba(46,255,160,0.2);
 }
